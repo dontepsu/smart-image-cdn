@@ -1,7 +1,6 @@
 import * as pathModule from 'path';
 import * as fs from 'fs';
 import { ImageProcessor } from 'image-processor';
-import { FileSystemImageResource } from 'resources/filesystem-image.resource';
 import { IImageService, ProcessOptions } from 'interfaces/image.service.interface';
 import { IImageResource } from 'interfaces/image.resource.interface';
 import { ImageNotFoundError } from 'errors/image-not-found.error';
