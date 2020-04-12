@@ -18,4 +18,8 @@ export class FileSystemImageResource implements IImageResource {
       throw new ImageNotFoundError(e.message);
     }
   }
+
+  async put(path: string, image: Buffer): Promise<void> {
+    await fs.promises.writeFile(pathModule.join(this.basePath, path), image);
+  }
 }

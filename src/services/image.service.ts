@@ -1,14 +1,7 @@
 import sharp from 'sharp';
+import { IImageService, ProcessOptions } from 'interfaces/image.service.interface';
 
-export type ImageType = 'jpg' | 'webp';
-export interface ProcessOptions {
-  width?: number;
-  height?: number;
-  quality?: number;
-  format: ImageType;
-}
-
-export class ImageService {
+export class ImageService implements IImageService {
 
   public process(image: Buffer, options: ProcessOptions): Promise<Buffer> {
     let sharpChain = sharp(image);
