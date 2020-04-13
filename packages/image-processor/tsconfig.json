@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+      "outDir": "build",
+      "module": "EsNext",
+      "target": "es2018",
+      "lib": ["esnext"],
+      "sourceMap": true,
+      "allowJs": false,
+      "declaration": true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "baseUrl": "src"
+  },
+  "include": [
+      "src"
+  ],
+  "exlude": [
+      "node_modules"
+  ]
+}

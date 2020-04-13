@@ -1,0 +1,64 @@
+{
+  "name": "@image-cdn/image-processor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smart Image CDN using AWS technologies and serverless",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles",
+    "build:lib": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dontepsu/smart-image-cdn.git"
+  },
+  "keywords": [
+    "serverless",
+    "image",
+    "cdn",
+    "dontepsu",
+    "imgix"
+  ],
+  "author": "Patrik Keinonen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dontepsu/smart-image-cdn/issues"
+  },
+  "homepage": "https://github.com/dontepsu/smart-image-cdn#readme",
+  "devDependencies": {
+    "@types/file-type": "^10.9.1",
+    "@types/image-size": "^0.8.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.1",
+    "@types/qs": "^6.9.1",
+    "@types/sharp": "^0.24.0",
+    "image-size": "^0.8.3",
+    "jest": "^25.3.0",
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
+  },
+  "jest": {
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "\\/src/.*\\.spec\\.ts$",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "dependencies": {
+    "file-type": "^14.1.4",
+    "qs": "^6.9.3",
+    "sharp": "^0.25.2"
+  }
+}
