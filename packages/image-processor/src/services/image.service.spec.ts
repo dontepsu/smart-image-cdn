@@ -5,7 +5,7 @@ import * as path from 'path';
 
 import { ImageService } from './image.service';
 
-const testImagePath = path.join(__dirname, '..', '..', 'data', 'testimage.jpg')
+const testImagePath = path.join(__dirname, '..', '..', '..', '..', 'data', 'testimage.jpg')
 
 describe('ImageService', () => {
   let imageService: ImageService;

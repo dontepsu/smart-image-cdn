@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { FileSystemImageResource } from './filesystem-image.resource';
 import { ImageNotFoundError } from 'errors/image-not-found.error';
 
-const imagesBasePath = path.join(__dirname, '..', '..', 'data');
+const imagesBasePath = path.join(__dirname, '..', '..', '..', '..', 'data');
 
 describe('FileSystemImageResource', () => {
   let imageResource: FileSystemImageResource;

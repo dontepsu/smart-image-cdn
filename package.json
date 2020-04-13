@@ -2,7 +2,8 @@
   "name": "smart-image-cdn-mono",
   "private": true,
   "scripts": {
-    "build:lib": "lerna run build:lib --stream"
+    "build:lib": "lerna run build:lib --stream",
+    "test": "lerna run test --stream"
   },
   "devDependencies": {
     "lerna": "^3.20.2",

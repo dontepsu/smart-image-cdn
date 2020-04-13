@@ -5,7 +5,7 @@ import { IImageService, ProcessOptions } from 'interfaces/image.service.interfac
 import { IImageResource } from 'interfaces/image.resource.interface';
 import { ImageNotFoundError } from 'errors/image-not-found.error';
 
-const imagesBasePath = pathModule.join(__dirname, '..', 'data');
+const imagesBasePath = pathModule.join(__dirname, '..', '..', '..', 'data');
 
 describe('ImageProcessor', () => {
   let imageProcessor: ImageProcessor;
