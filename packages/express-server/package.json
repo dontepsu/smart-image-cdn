@@ -1,0 +1,17 @@
+{
+  "name": "@image-cdn/express-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "For localhost testing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Patrik Keinonen",
+  "license": "MIT",
+  "dependencies": {
+    "@image-cdn/image-processor": "^1.0.0",
+    "express": "^4.17.1",
+    "qs": "^6.9.3"
+  }
+}

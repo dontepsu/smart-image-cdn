@@ -11,6 +11,7 @@ describe('ImageProcessor', () => {
   let imageProcessor: ImageProcessor;
   let mockImageService: IImageService;
   let mockImageResource: IImageResource;
+  let mockProcessedImageResource: IImageResource;
   let testImage: Buffer;
 
   beforeAll(async () => {
@@ -43,8 +44,9 @@ describe('ImageProcessor', () => {
     }
   
     imageProcessor = new ImageProcessor(
-      mockImageService,
       mockImageResource,
+      mockImageResource,
+      mockImageService,
     );
   });
 
@@ -68,21 +70,21 @@ describe('ImageProcessor', () => {
   });
 
   it('should return cached image', async () => {
-    const image = await imageProcessor.getImageOrProcess('cached.jpg', '?w=100', '');
-    expect(typeof image).toEqual('object');
-    expect(image !== null).toBeTruthy();
+    const response = await imageProcessor.getImageOrProcess('cached.jpg', '?w=100', '');
+    expect(response.contentType).toEqual('image/jpeg');
+    expect(response.image !== null).toBeTruthy();
     expect((mockImageService.process as jest.Mock).mock.calls.length).toEqual(0);
     expect((mockImageResource.get as jest.Mock).mock.calls.length).toEqual(1);
     expect((mockImageResource.put as jest.Mock).mock.calls.length).toEqual(0);
   });
 
   it('should return processed image', async () => {
-    const image = await imageProcessor.getImageOrProcess('found.jpg', '?w=100', 'image/webp');
-    expect(typeof image).toEqual('object');
-    expect(image !== null).toBeTruthy();
+    const response = await imageProcessor.getImageOrProcess('found.jpg', '?w=100', '');
+    expect(response.contentType).toEqual('image/jpeg');
+    expect(response.image !== null).toBeTruthy();
     expect((mockImageService.process as jest.Mock).mock.calls.length).toEqual(1);
     expect((mockImageService.process as jest.Mock).mock.calls[0][1]).toEqual({
-      format: 'webp',
+      format: 'jpg',
       width: 100,
     });
     expect((mockImageResource.get as jest.Mock).mock.calls.length).toEqual(2);

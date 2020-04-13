@@ -1,36 +1,39 @@
 import qs from 'qs';
 import { createHash } from 'crypto';
-import { IImageResource } from 'interfaces/image.resource.interface';
-import { IImageService, ProcessOptions, ImageType } from 'interfaces/image.service.interface';
-
+import { IImageResource } from './interfaces/image.resource.interface';
+import { ImageProcessorResponse } from './interfaces/image-processor-response.interface';
+import { IImageService, ProcessOptions, ImageType } from './interfaces/image.service.interface';
+import { ImageService } from './services/image.service';
+import * as FileType from 'file-type';
 
 export class ImageProcessor {
   constructor (
-    private imageService: IImageService,
     private imageResource: IImageResource,
+    private processedImageResource: IImageResource = imageResource,
+    private imageService: IImageService = new ImageService(),
   ) {}
 
   public async getImageOrProcess (
     path: string,
     queryString: string,
     acceptHeader: string,
-  ): Promise<Buffer> {
+  ): Promise<ImageProcessorResponse> {
     const pathWithoutExtension = path.replace(/\.(jpe?g|webp)$/i, '');
     const options = ImageProcessor.parseProcessOptions(acceptHeader, queryString);
     const cachedImageKey = ImageProcessor.getProcessedImagePath(pathWithoutExtension, options);
 
-    const cachedImage = await this.tryGetImageOrNull(cachedImageKey);
+    const cachedImage = await this.tryGetProcessedImageOrNull(cachedImageKey);
     if (cachedImage !== null) {
-      return cachedImage;
+      return this.createResponse(cachedImage);
     }
 
     const originalImage = await this.imageResource.get(path);
     const processedImage = await this.imageService.process(originalImage, options);
     
     // TODO: figure out can this be done more efficiently
-    await this.imageResource.put(cachedImageKey, processedImage);
+    await this.processedImageResource.put(cachedImageKey, processedImage);
 
-    return processedImage;
+    return this.createResponse(processedImage);
   }
 
   public static parseProcessOptions(acceptHeader: string, queryString: string): ProcessOptions {
@@ -64,9 +67,19 @@ export class ImageProcessor {
     return `${path}__${hash}.${options.format}`
   }
 
-  private async tryGetImageOrNull (path: string): Promise<Buffer | null> {
+  private async createResponse (image: Buffer): Promise<ImageProcessorResponse> {
+    const fileType = await FileType.fromBuffer(image);
+
+    return {
+      image,
+      size: image.length,
+      contentType: fileType.mime,
+    };
+  }
+
+  private async tryGetProcessedImageOrNull (path: string): Promise<Buffer | null> {
     try {
-      const image = await this.imageResource.get(path);
+      const image = await this.processedImageResource.get(path);
 
       return image;
     } catch (e) {

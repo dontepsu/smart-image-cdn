@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import { IImageService, ProcessOptions } from 'interfaces/image.service.interface';
+import { IImageService, ProcessOptions } from '../interfaces/image.service.interface';
 
 export class ImageService implements IImageService {
 

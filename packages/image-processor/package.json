@@ -6,7 +6,7 @@
   "main": "build/index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "build:lib": "tsc"
+    "build:lib": "tsc --build"
   },
   "repository": {
     "type": "git",

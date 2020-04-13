@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import { FileSystemImageResource } from './filesystem-image.resource';
-import { ImageNotFoundError } from 'errors/image-not-found.error';
+import { ImageNotFoundError } from '../errors/image-not-found.error';
 
 const imagesBasePath = path.join(__dirname, '..', '..', '..', '..', 'data');
 
