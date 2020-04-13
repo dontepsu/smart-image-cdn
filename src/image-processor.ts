@@ -16,8 +16,8 @@ export class ImageProcessor {
     acceptHeader: string,
   ): Promise<Buffer> {
     const pathWithoutExtension = path.replace(/\.(jpe?g|webp)$/i, '');
-    const options = this.parseProcessOptions(acceptHeader, queryString);
-    const cachedImageKey = this.getProcessedImagePath(pathWithoutExtension, options);
+    const options = ImageProcessor.parseProcessOptions(acceptHeader, queryString);
+    const cachedImageKey = ImageProcessor.getProcessedImagePath(pathWithoutExtension, options);
 
     const cachedImage = await this.tryGetImageOrNull(cachedImageKey);
     if (cachedImage !== null) {
@@ -33,7 +33,7 @@ export class ImageProcessor {
     return processedImage;
   }
 
-  public parseProcessOptions(acceptHeader: string, queryString: string): ProcessOptions {
+  public static parseProcessOptions(acceptHeader: string, queryString: string): ProcessOptions {
     const format: ImageType = acceptHeader?.includes('image/webp') ? 'webp' : 'jpg';
     const queryObject = qs.parse(queryString.replace(/^\?/i, ''));
     const options: ProcessOptions = {
@@ -59,6 +59,11 @@ export class ImageProcessor {
     return options;
   }
 
+  public static getProcessedImagePath (path: string, options: ProcessOptions): string {
+    const hash = createHash('md5').update(JSON.stringify(options)).digest('hex');
+    return `${path}__${hash}.${options.format}`
+  }
+
   private async tryGetImageOrNull (path: string): Promise<Buffer | null> {
     try {
       const image = await this.imageResource.get(path);
@@ -67,10 +72,5 @@ export class ImageProcessor {
     } catch (e) {
       return null;
     }
-  }
-
-  private getProcessedImagePath (path: string, options: ProcessOptions): string {
-    const hash = createHash('md5').update(JSON.stringify(options)).digest('hex');
-    return `${path}__${hash}.${options.format}`
   }
 }

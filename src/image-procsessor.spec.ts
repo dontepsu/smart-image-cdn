@@ -23,18 +23,23 @@ describe('ImageProcessor', () => {
         return image;
       }),
     }
+
+    const images = new Map<string, Buffer>([
+      ['found.jpg', testImage],
+      [ImageProcessor.getProcessedImagePath('cached', ImageProcessor.parseProcessOptions('', '?w=100')), testImage],
+    ]);
       
     mockImageResource = {
       get: jest.fn(async (path: string): Promise<Buffer> => {
-        if (path.includes('found') && !path.includes('__')) {
-          return testImage;
-        } else if (path.includes('cached')) {
-          return testImage;
+        if (images.has(path)) {
+          return images.get(path);
         }
 
         throw new ImageNotFoundError();
       }),
-      put: jest.fn(async (path: string, image: Buffer): Promise<void> => {}),
+      put: jest.fn(async (path: string, image: Buffer): Promise<void> => {
+        images.set(path, testImage);
+      }),
     }
   
     imageProcessor = new ImageProcessor(
@@ -58,7 +63,7 @@ describe('ImageProcessor', () => {
     ];
 
     tests.forEach(({ qs, accept, expection }) => {
-      expect(imageProcessor.parseProcessOptions(accept, qs)).toEqual(expection);
+      expect(ImageProcessor.parseProcessOptions(accept, qs)).toEqual(expection);
     })
   });
 
