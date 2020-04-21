@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "build:lib": "lerna run build:lib --stream",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "prestart:express": "yarn build:lib",
+    "start:express": "lerna run --scope @image-cdn/express-server start --stream"
   },
   "devDependencies": {
     "lerna": "^3.20.2",
